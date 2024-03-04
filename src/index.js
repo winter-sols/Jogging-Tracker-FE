@@ -8,8 +8,11 @@ import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import { AUTH_USER } from './redux/reducers/auth';
 
+
 if(localStorage.getItem('jogging_track_auth')){
-  
+  console.log("Auth--------------")
+  const payload=JSON.parse(localStorage.getItem('jogging_track_auth'));
+  store.dispatch(AUTH_USER(payload));
 }
 
 

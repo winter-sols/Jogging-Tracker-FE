@@ -5,12 +5,13 @@ const initialState={
 }
 
 const recordsSlice=createSlice({
-    name: 'record',
+    name: 'recordslist',
     initialState,
     reducers: {
         GET_RECORDS: (state, action)=>{
             state.recordslist= action.payload;
         }
+        
     }
 })
 

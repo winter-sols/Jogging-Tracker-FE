@@ -1,10 +1,6 @@
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import { AUTH_USER } from "../reducers/auth";
-import auth from "../reducers/auth";
-import { error } from "highcharts";
-import { Alert } from "react-bootstrap";
-import { store } from "../store";
+
 const base_url = 'http://localhost:8000';
 axios.defaults.baseURL = base_url+'/';
 axios.defaults.headers.common['Authorization'] = 'JWT'+localStorage.getItem('jogging_tracker_auth');
@@ -18,13 +14,16 @@ export const signin = ({email, password}) => dispatch => {
     })
     .then(response => {
         const { data } = response
-        const { info, token } = data
-        const payload = info;
+        const { info } = data
+        if(data){
+            const payload = {
+            data:info,
+            isAuthenticated: true
+            };
+        console.log(payload)
         dispatch(AUTH_USER(payload));
-        localStorage.setItem('jogging_tracker_auth', JSON.stringify(token));
-        
-        
-        
+        localStorage.setItem('jogging_tracker_auth', JSON.stringify(data));    
+    }
     }).catch(error => {
         return console.error('Fetching user data failed', error);
     })

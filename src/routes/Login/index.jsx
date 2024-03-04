@@ -27,7 +27,7 @@ function Login() {
     isAuthenticated ? navigate('/dashboard'): navigate('/');
     // console.log(isAuthenticated)
 
-  },[isAuthenticated]);
+  },[]);
   
   const dispatch = useDispatch();
   // const history = useHistory();
