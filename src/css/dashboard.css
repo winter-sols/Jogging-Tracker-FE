@@ -1,0 +1,7 @@
+.dashboard {
+    margin-top: 15vh;
+}
+
+.dashboard .title h2,h3,h4{
+    text-align: center;
+}
