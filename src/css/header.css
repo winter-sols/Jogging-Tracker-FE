@@ -1,8 +1,8 @@
 .header {
-    height: 8vh;
-    width: 100%;
-    background-image: linear-gradient(to right, #000033, #00001a);
-    display: flex;
-    flex-direction: row-reverse;
-    padding: 2vh;
+  height: 8vh;
+  width: 100%;
+  background-image: linear-gradient(to right, #000033, #00001a);
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 2vh;
 }

@@ -1,101 +1,98 @@
-import React from 'react';
-import { Form, Button, Col, Row } from 'react-bootstrap';
-import '../../css/signin.css';
-import { useForm } from 'react-hook-form';
+import React from "react";
+import { Form, Button, Col, Row } from "react-bootstrap";
+import "../../css/signin.css";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from 'yup';
-import { signin } from '../../redux/api/user';
-import { useDispatch } from 'react-redux';
-import Side from '../../containers/Side';
-import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import * as yup from "yup";
+import { signin } from "../../redux/api/user";
+import { useDispatch } from "react-redux";
+import Side from "../../containers/Side";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // import Input from '../../components/Input';
 
-const schema = yup.object({
-  email: yup.string().email().required("Please enter an email"),
-  password: yup.string().required("Please enter a password").min(8, "Password must be at least 8 characters")
-}).required();
+const schema = yup
+  .object({
+    email: yup.string().email().required("Please enter an email"),
+    password: yup
+      .string()
+      .required("Please enter a password")
+      .min(8, "Password must be at least 8 characters"),
+  })
+  .required();
 
 function Login() {
-      const navigate = useNavigate();
-    const isAuthenticated = useSelector(state=>state.auth.isAuthenticated);
-    // console.log(isAuthenticated)
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  // console.log(isAuthenticated)
 
   useEffect(() => {
-
-    isAuthenticated ? navigate('/dashboard'): navigate('/');
+    isAuthenticated ? navigate("/dashboard") : navigate("/");
     // console.log(isAuthenticated)
-
   },[]);
-  
+
   const dispatch = useDispatch();
   // const history = useHistory();
 
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       email: "",
-      password: ""
-    }
-  })
+      password: "",
+    },
+  });
 
   // console.log(errors)
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(signin(data));
-
-  }
+    const info = dispatch(signin(data));
+    console.log({ info }, "@@@@@@@@@");
+  };
 
   return (
     <Row>
       <Side />
 
       <Col>
-        <div className='form'>
-          <h2 className='title'>Signin</h2>
+        <div className="form">
+          <h2 className="title">Signin</h2>
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group style={{ marginBottom: '3vh' }}>
+            <Form.Group style={{ marginBottom: "3vh" }}>
               <Form.Label>Email</Form.Label>
               <Form.Control
-                type='email'
+                type="email"
                 {...register("email")}
                 aria-invalid={errors.Email ? "true" : "false"}
               />
             </Form.Group>
-            {
-              errors.email?.type === "required" && (
-                <p role="alert" style={{ color: 'red' }}>Email is required!</p>
-              )}
+            {errors.email?.type === "required" && (
+              <p role="alert" style={{ color: "red" }}>
+                Email is required!
+              </p>
+            )}
 
-            <Form.Group style={{ marginBottom: '3vh' }}>
+            <Form.Group style={{ marginBottom: "3vh" }}>
               <Form.Label>Password</Form.Label>
-              <Form.Control
-                type='password'
-                {...register("password")}
-              />
+              <Form.Control type="password" {...register("password")} />
             </Form.Group>
             {errors.password ? (
-              <p role="alert" style={{ color: 'red' }}>{errors.password.message}</p>
+              <p role="alert" style={{ color: "red" }}>
+                {errors.password.message}
+              </p>
             ) : undefined}
-            <Button variant='light' type="submit" className='btn3'>Signin</Button>
-
-
+            <Button variant="light" type="submit" className="btn3">
+              Signin
+            </Button>
           </Form>
-
         </div>
-
       </Col>
     </Row>
-
-
-
-
-  )
+  );
 }
 
 export default Login;
