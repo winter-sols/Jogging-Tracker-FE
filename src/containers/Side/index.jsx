@@ -11,7 +11,7 @@ function Side() {
   };
 
   return (
-    <Col>
+    <Col style={{padding: '0px'}}>
       <div className="side">
         <h1>Welcome to Jogging Track!</h1>
         <div>
@@ -26,7 +26,7 @@ function Side() {
           <Button
             variant="secondary"
             className="btn2"
-            id="signup"
+            id="/signup"
             onClick={(e) => onToggle(e)}
           >
             SignUp

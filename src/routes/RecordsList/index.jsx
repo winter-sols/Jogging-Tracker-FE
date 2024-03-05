@@ -1,26 +1,24 @@
 import { left } from "@popperjs/core";
-import React from "react";
+import React, { useCallback } from "react";
 import { Row, Col, Form, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { getrecord, getrecords, deleterecord } from "../../redux/api/record";
+import { getrecords, deleterecord } from "../../redux/api/record";
 import { Link } from "react-router-dom";
 import { distanceUnit, getDateStr, hhmmss } from "../../helpers";
 import PaginationFunc from "../../components/Pagination";
 import { useNavigate } from "react-router-dom";
-import confirmModal from "../../containers/Modals";
-import { pick } from "lodash";
-
 import "../../css/recordslist.css";
+// import confirmModal from "../../containers/Modals";
 
 function RecordsList() {
   // console.log(this.props)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const recordslist = useSelector((state) => state.records.recordslist);
-  console.log(recordslist);
+  // console.log({recordslist});
   const {
     register,
     formState: { errors },
@@ -42,14 +40,14 @@ function RecordsList() {
         page: 1,
       })
     );
-  }, []);
+  },[dispatch]);
 
   const pagination = useSelector((state) => state.pagination);
   const size = pagination.page_size;
 
   // console.log(pagination, "------------------------------")
   const handleFiltered = (values) => {
-    console.log(values);
+    // console.log({values},"Filterrrrrrrrrrrrrrrrrrr");
     dispatch(
       getrecords({
         from: getDateStr(values.from),
@@ -59,23 +57,16 @@ function RecordsList() {
     );
   };
 
-  const handleDeleteRecord = (id) => {
-    console.log(id, "handle delete record----------");
+  const handleDeleteRecord = useCallback((id) => {
+    // console.log({id}, "handle delete record----------");
     dispatch(deleterecord(id));
-  };
+  },[dispatch]);
 
   const handlePagination = (pagination) => {
     const { page } = pagination;
     const page_size = size;
     // console.log(page,page_size, "jflasjflasjfljsafjlsaljkdf")
     dispatch(getrecords({ page, page_size }));
-    // const { getRecords, params } = this.props
-    // getRecords({
-    //   params: {
-    //     ...pick(params, ['from', 'to', 'page', 'page_size']),
-    //     ...pagination
-    //   }
-    // })
   };
 
   const handleAddRecord = () => {
@@ -170,7 +161,7 @@ function RecordsList() {
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={handleDeleteRecord(record.id)}
+                      onClick={() =>handleDeleteRecord(record.id)}
                     >
                       Delete
                     </Button>

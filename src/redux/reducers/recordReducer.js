@@ -10,10 +10,9 @@ const recordsSlice = createSlice({
   reducers: {
     GET_RECORD: (state, action) => {
       state.record = action.payload;
-    },
-    UPDATE_RECORD: (state, action) => [(state.record = action.payload)],
+    }
   },
 });
 
-export const { GET_RECORD, UPDATE_RECORD } = recordsSlice.actions;
+export const { GET_RECORD } = recordsSlice.actions;
 export default recordsSlice.reducer;

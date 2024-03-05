@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getrecord } from "../../redux/api/record";
+import { getrecord, updaterecord, createrecord } from "../../redux/api/record";
 import { useSelector } from "react-redux";
 import getDuration from "../../helpers/Calc";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,7 @@ function RecordEdit() {
     setValue,
   } = useForm({
     defaultValues: {
-      date: "",
+      date_recorded: "",
       durationHour: "",
       durationMin: "",
       durationSec: "",
@@ -33,21 +33,51 @@ function RecordEdit() {
     },
   });
   useEffect(() => {
-    if (params.id) dispatch(getrecord(params.id));
-  }, []);
-
-  setValue("date", date_recorded);
-  setValue("durationHour", hour);
-  setValue("durationMin", min);
-  setValue("durationSec", sec);
-  setValue("distance", distance);
-  setValue("user_fullname", user_fullname);
+    if (params.id) {
+      dispatch(getrecord(params.id));
+      setValue("date_recorded", date_recorded);
+      setValue("durationHour", hour);
+      setValue("durationMin", min);
+      setValue("durationSec", sec);
+      setValue("distance", distance);
+      setValue("user_fullname", user_fullname);
+    }
+  }, [
+    dispatch,
+    params.id,
+    date_recorded,
+    hour,
+    min,
+    sec,
+    distance,
+    user_fullname,
+    setValue,
+  ]);
 
   const handleEdit = (values) => {
-    const { date_recorded, duration, distance, user_fullname } = values;
-    dispatch(
-      getrecord(date_recorded, distance, duration, id, user, user_fullname)
-    );
+    // console.log({ values }, "Valuueeeeeeeee");
+    const {
+      date_recorded,
+      durationHour,
+      durationMin,
+      durationSec,
+      distance,
+      user_fullname,
+    } = values;
+    const duration = 3600 * durationHour + 60 * durationMin + durationSec;
+    params.id
+      ? dispatch(
+          updaterecord(
+            { date_recorded, distance, duration, id, user, user_fullname },
+            navigate
+          )
+        )
+      : dispatch(
+          createrecord(
+            { date_recorded, distance, duration, id, user, user_fullname },
+            navigate
+          )
+        );
   };
 
   const handleCancel = () => {
@@ -66,7 +96,7 @@ function RecordEdit() {
               <Form.Label>Date</Form.Label>
               <Form.Control
                 type="date"
-                {...register("date")}
+                {...register("date_recorded")}
                 aria-invalid={errors.date ? "true" : "false"}
               />
             </Form.Group>

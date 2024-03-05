@@ -10,6 +10,7 @@ import Side from "../../containers/Side";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { compose } from "redux";
 // import Input from '../../components/Input';
 
 const schema = yup
@@ -27,10 +28,10 @@ function Login() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   // console.log(isAuthenticated)
 
-  useEffect(() => {
-    isAuthenticated ? navigate("/dashboard") : navigate("/");
-    // console.log(isAuthenticated)
-  },[]);
+  // useEffect(() => {
+  //   isAuthenticated ? navigate("/dashboard") : navigate("/");
+  //   // console.log(isAuthenticated)
+  // },[]);
 
   const dispatch = useDispatch();
   // const history = useHistory();
@@ -50,15 +51,16 @@ function Login() {
   // console.log(errors)
   const onSubmit = (data) => {
     console.log(data);
-    const info = dispatch(signin(data));
-    console.log({ info }, "@@@@@@@@@");
+    
+      dispatch(signin(data, navigate))
+    
   };
 
   return (
     <Row>
       <Side />
 
-      <Col>
+      <Col style={{padding:'0px'}}>
         <div className="form">
           <h2 className="title">Signin</h2>
           <Form onSubmit={handleSubmit(onSubmit)}>

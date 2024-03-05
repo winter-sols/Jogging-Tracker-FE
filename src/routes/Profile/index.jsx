@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button, Col, Row, Alert } from "react-bootstrap";
+import { Form, Button, Col, Row } from "react-bootstrap";
 import "../../css/profile.css";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,9 +7,7 @@ import * as yup from "yup";
 import { ref } from "yup";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { signup } from "../../redux/api/user";
 import { useNavigate } from "react-router-dom";
-import { getProfile } from "../../redux/api/user";
 import { useSelector } from "react-redux";
 import { saveProfile } from "../../redux/api/user";
 import { compose } from "redux";
@@ -63,7 +61,6 @@ function Profile() {
       lastName: "",
       email: "",
       password: "",
-      // confirmPwd: ""
     },
   });
 
@@ -71,11 +68,6 @@ function Profile() {
   const onSubmit = (data) => {
     console.log(data, "AAAAAAAAAAAAAAAAAAAAA");
     compose(dispatch(saveProfile(data)), navigate("/dashboard"));
-    // .success(()=>{
-    //   navigate('/dashboard')
-
-    // console.log(success)
-    // if(success) return <Alert key={success} variant='success'></Alert>
   };
 
   const handleCancel = () => {

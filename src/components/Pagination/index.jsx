@@ -11,7 +11,7 @@ import { getPageCount } from "../../helpers";
 import { useState } from "react";
 
 export default function PaginationFunc(props) {
-  console.log(props);
+  // console.log(props);
   const pagination = props.pagination,
     setPagination = props.setPagination;
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -43,7 +43,7 @@ export default function PaginationFunc(props) {
 
   const pageCount = getPageCount(pagination);
   const pages = new Array(pageCount).fill(0);
-  console.log(pages);
+  // console.log(pages);
 
   return (
     <Row style={{ justifyContent: "center" }}>

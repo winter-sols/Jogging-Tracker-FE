@@ -61,7 +61,7 @@ function Signup() {
   return (
     <Row>
       <Side />
-      <Col>
+      <Col style={{padding:'0px'}}>
         <div className="form">
           <h2 className="title">Signup</h2>
           <Form onSubmit={handleSubmit(onSubmit)}>

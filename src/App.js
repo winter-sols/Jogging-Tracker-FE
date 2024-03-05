@@ -48,7 +48,7 @@ function App() {
                 }
               />
               <Route
-                path="/users"
+                path="/users/*"
                 element={isAuthenticated ? <Users /> : <Navigate to="/login" />}
               />
               <Route
