@@ -86,7 +86,7 @@ function UserList() {
             {userslist &&
               userslist.map((user, index) => (
                 <tr key={index + user}>
-                  <th scope="row">{index + 1}</th>
+                  <th scope="row">{index + 10*(pagination.page-1)+1}</th>
                   <td>
                     {user.first_name} {user.last_name}
                   </td>

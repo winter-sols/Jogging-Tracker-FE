@@ -46,8 +46,7 @@ export const signin =
       });
   };
 
-export const signup = ({ firstName, lastName, email, password }) => {
-  console.log(firstName, lastName, email, password);
+export const signup = ({ firstName, lastName, email, password }, navigate) => {
   axios
     .post("auth/register", {
       first_name: firstName,
@@ -56,21 +55,13 @@ export const signup = ({ firstName, lastName, email, password }) => {
       password,
     })
     .then((response) => {
-      console.log(response.data);
+      navigate("/");
     })
     .catch((error) => console.error("Fetching user data failed", error));
 };
 
-export const getProfile = () => {
-  axios.get("users/profile").then((response) => {
-    console.log(response);
-  });
-};
-
 export const saveProfile = (data) => (dispatch) => {
-  console.log(data);
   const { firstName, lastName, email, password } = data;
-  console.log(firstName, lastName, email, password);
   axios
     .put("users/profile/", {
       first_name: firstName,
@@ -79,9 +70,7 @@ export const saveProfile = (data) => (dispatch) => {
       password,
     })
     .then((response) => {
-      // console.log(response.data);
       const { data } = response;
-      // console.log(data)
       const newData = { info: data, token: auth };
       const payload = {
         data: newData,
@@ -117,8 +106,6 @@ export const getuserslist =
         const { count, next, previous, results } = response.data;
         const payload = results;
         const data = { count, next, previous, page };
-        // console.log(page, "@@@@@@@@@@@@@@@@@@@@@@")
-        // console.log(data, "--------------????????????????")
         dispatch(GET_USERS(payload));
         dispatch(SET_PAGINATION(data));
       })
@@ -141,6 +128,7 @@ export const getuser = (id) => (dispatch) => {
 };
 
 export const updateuser = (data, navigate) => (dispatch) => {
+  console.log(data)
   const { email, role, first_name, last_name, id, password } = data;
   axios
     .put(`/users/${id}/`, {
@@ -198,8 +186,8 @@ export const getuserreport = (id) => (dispatch) => {
   axios
     .get(`/users/${id}/report`)
     .then((response) => {
-      const payload=response.data;
-      dispatch(GET_USER_REPORT(payload))
+      const payload = response.data;
+      dispatch(GET_USER_REPORT(payload));
     })
     .catch((error) => {
       console.error("Error occured", error);
