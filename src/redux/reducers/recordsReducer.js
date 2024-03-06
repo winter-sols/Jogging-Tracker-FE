@@ -10,10 +10,8 @@ const recordsSlice = createSlice({
   reducers: {
     GET_RECORDS: (state, action) => {
       state.recordslist = action.payload;
-      console.log({ state });
     },
     DELETE_RECORD: (state, action) => {
-      console.log(action.payload, "DELETEEEEEEEEEEEEE");
       state.recordslist = state.recordslist.filter(
         (record) => record.id !== action.payload
       );

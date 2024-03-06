@@ -2,10 +2,12 @@ import React from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import "../../css/dashboard.css";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Dashboard() {
   const navigate = useNavigate();
-
+  const profile=useSelector(state=>state.auth.data);
+  const {info}=profile;
   const onClick = (e) => {
     console.log("erwerwe", e.target.id);
     const route = e.target.id;
@@ -14,7 +16,7 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <div className="title">
-        <h2>Welcome, Super User!</h2>
+        <h2>Welcome, {info.first_name} User!</h2>
         <h4>Thanks for using Jogging Tracker!</h4>
         <h4>Please use the following navigations to use this app.</h4>
       </div>

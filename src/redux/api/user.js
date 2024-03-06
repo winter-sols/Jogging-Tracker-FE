@@ -1,8 +1,14 @@
 import axios from "axios";
 import { AUTH_USER, LOG_OUT } from "../reducers/auth";
-import { GET_USERS, CREATE_USER, UPDATE_USER, DELETE_USER } from "../reducers/usersReducer";
+import {
+  GET_USERS,
+  CREATE_USER,
+  UPDATE_USER,
+  DELETE_USER,
+} from "../reducers/usersReducer";
 import { GET_USER } from "../reducers/userReducer";
 import { SET_PAGINATION } from "../reducers/paginationReducer";
+import { GET_USER_REPORT } from "../reducers/userReportReducer";
 
 const base_url = "http://localhost:8000";
 axios.defaults.baseURL = base_url + "/";
@@ -23,7 +29,6 @@ export const signin =
       })
       .then((response) => {
         const { data } = response;
-        const { info } = data;
         if (data) {
           const payload = {
             data: data,
@@ -109,10 +114,8 @@ export const getuserslist =
         },
       })
       .then((response) => {
-        console.log(response, "response???????????????");
         const { count, next, previous, results } = response.data;
         const payload = results;
-        console.log({payload});
         const data = { count, next, previous, page };
         // console.log(page, "@@@@@@@@@@@@@@@@@@@@@@")
         // console.log(data, "--------------????????????????")
@@ -130,7 +133,6 @@ export const getuser = (id) => (dispatch) => {
     .get(`/users/${id}`)
     .then((response) => {
       const data = response.data;
-      console.log({data});
       dispatch(GET_USER(data));
     })
     .catch((error) => {
@@ -139,15 +141,15 @@ export const getuser = (id) => (dispatch) => {
 };
 
 export const updateuser = (data, navigate) => (dispatch) => {
-  const { date_recorded, distance, duration, id, user, user_fullname } = data;
+  const { email, role, first_name, last_name, id, password } = data;
   axios
     .put(`/users/${id}/`, {
-      date_recorded,
-      distance,
-      duration,
+      email,
+      role,
+      first_name,
+      last_name,
       id,
-      user,
-      user_fullname,
+      password,
     })
     .then((response) => {
       const payload = response.data;
@@ -160,14 +162,15 @@ export const updateuser = (data, navigate) => (dispatch) => {
 };
 
 export const createuser = (data, navigate) => (dispatch) => {
-  console.log(data);
-  const { date_recorded, distance, duration, user } = data;
+  const { email, role, first_name, last_name, id, password } = data;
   axios
     .post(`/users/`, {
-      date_recorded,
-      distance,
-      duration,
-      user,
+      email,
+      role,
+      first_name,
+      last_name,
+      id,
+      password,
     })
     .then((response) => {
       const payload = response.data;
@@ -181,11 +184,22 @@ export const createuser = (data, navigate) => (dispatch) => {
 
 export const deleteuser = (id) => (dispatch) => {
   axios
-    .delete(`/records/${id}`)
+    .delete(`/users/${id}`)
     .then((response) => {
-      // console.log(response);
       const payload = id;
       dispatch(DELETE_USER(payload));
+    })
+    .catch((error) => {
+      console.error("Error occured", error);
+    });
+};
+
+export const getuserreport = (id) => (dispatch) => {
+  axios
+    .get(`/users/${id}/report`)
+    .then((response) => {
+      const payload=response.data;
+      dispatch(GET_USER_REPORT(payload))
     })
     .catch((error) => {
       console.error("Error occured", error);

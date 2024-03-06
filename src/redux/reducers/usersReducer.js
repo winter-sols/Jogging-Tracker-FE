@@ -10,10 +10,8 @@ const usersSlice = createSlice({
   reducers: {
     GET_USERS: (state, action) => {
       state.userslist = action.payload;
-      console.log(state.userslist, "SSSSSSSSSSSSSSSSSSSSS");
     },
     DELETE_USER: (state, action) => {
-      console.log(action.payload, "DELETEEEEEEEEEEEEE");
       state.userslist = state.userslist.filter(
         (record) => record.id !== action.payload
       );

@@ -2,23 +2,15 @@ import React from "react";
 import "../../css/header.css";
 import { Breadcrumb, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { compose } from "redux";
 import { useNavigate } from "react-router-dom";
-import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/api/user";
 
 function Header() {
-  // const input1=useRef(null);
-  // const input2=useRef(null);
-  // const input3=useRef(null);
-  // const input4=useRef(null);
-  // const input5=useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const values=useSelector(state=>state.auth.data);
-  // console.log({values});
-  const {info}=values;
+  const info=values;
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   // console.log(isAuthenticated);
 
@@ -38,14 +30,14 @@ function Header() {
             {isAuthenticated ? (
               <>
                 <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
-                {info.role=='admin' ? <Breadcrumb.Item href="/users">Users</Breadcrumb.Item> : <></>}
+                {info.info.role==='admin' ? <Breadcrumb.Item href="/users">Users</Breadcrumb.Item> : <></>}
                 
                 <Breadcrumb.Item href="/records">Records</Breadcrumb.Item>
                 <Breadcrumb.Item href="/profile">Profile</Breadcrumb.Item>
                 <Breadcrumb.Item onClick={handleLogout}>Logout</Breadcrumb.Item>
               </>
             ) : (
-              <></>
+              undefined
             )}
           </Breadcrumb>
         </Col>

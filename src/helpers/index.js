@@ -25,8 +25,11 @@ export const distanceUnit = (distance, suffix = "") =>
     ? Math.round(distance * 10) / 10 + " m" + suffix
     : Math.round(distance / 100) / 10 + " km" + suffix;
 
-export const getDateStr = (dateTime) =>
-  dateTime ? moment(dateTime).format("YYYY-MM-DD") : undefined;
+export const getDateStr = (dateTime) =>{
+
+  console.log({dateTime});
+     return dateTime ? moment(dateTime).format("YYYY-MM-DD") : undefined;
+}
 
 export const getPageCount = ({ page_size, count }) =>
   Math.ceil(count / page_size);

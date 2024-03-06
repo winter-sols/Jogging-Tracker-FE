@@ -7,11 +7,7 @@ import * as yup from "yup";
 import { signin } from "../../redux/api/user";
 import { useDispatch } from "react-redux";
 import Side from "../../containers/Side";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { compose } from "redux";
-// import Input from '../../components/Input';
 
 const schema = yup
   .object({
@@ -25,16 +21,8 @@ const schema = yup
 
 function Login() {
   const navigate = useNavigate();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  // console.log(isAuthenticated)
-
-  // useEffect(() => {
-  //   isAuthenticated ? navigate("/dashboard") : navigate("/");
-  //   // console.log(isAuthenticated)
-  // },[]);
 
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const {
     register,
@@ -48,19 +36,15 @@ function Login() {
     },
   });
 
-  // console.log(errors)
   const onSubmit = (data) => {
-    console.log(data);
-    
-      dispatch(signin(data, navigate))
-    
+    dispatch(signin(data, navigate));
   };
 
   return (
     <Row>
       <Side />
 
-      <Col style={{padding:'0px'}}>
+      <Col style={{ padding: "0px" }}>
         <div className="form">
           <h2 className="title">Signin</h2>
           <Form onSubmit={handleSubmit(onSubmit)}>

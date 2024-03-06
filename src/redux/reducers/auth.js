@@ -13,7 +13,6 @@ const authSlice = createSlice({
       const { data, isAuthenticated } = action.payload;
       state.data = data;
       state.isAuthenticated = isAuthenticated;
-      console.log(1);
     },
     LOG_OUT: (state,action)=>{
         const { data, isAuthenticated } = action.payload;

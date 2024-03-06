@@ -37,9 +37,7 @@ const schema = yup
 function Profile() {
   const dispatch = useDispatch();
   const values = useSelector((state) => state.auth.data);
-  console.log(values, "]]]]]]]]]]]]]]]");
   const { info } = values;
-  console.log(info);
   const { email, first_name, last_name } = info;
   const navigate = useNavigate();
 
@@ -64,9 +62,7 @@ function Profile() {
     },
   });
 
-  console.log(errors);
   const onSubmit = (data) => {
-    console.log(data, "AAAAAAAAAAAAAAAAAAAAA");
     compose(dispatch(saveProfile(data)), navigate("/dashboard"));
   };
 

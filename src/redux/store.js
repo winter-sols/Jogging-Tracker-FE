@@ -6,6 +6,7 @@ import { AUTH_USER } from "./reducers/auth";
 import recordReducer from "./reducers/recordReducer";
 import userReducer from "./reducers/userReducer";
 import usersReducer from "./reducers/usersReducer";
+import userReportReducer from "./reducers/userReportReducer";
 
 const persistedState = JSON.parse(localStorage.getItem("jogging_tracker_auth"));
 const payload = {
@@ -20,9 +21,10 @@ export const store = configureStore({
     record: recordReducer,
     pagination: paginationReducer,
     user:userReducer,
-    users: usersReducer
+    users: usersReducer,
+    report: userReportReducer
   },
 });
 
 store.dispatch(AUTH_USER(payload));
-store.subscribe(() => console.log("The new state is", store.getState()));
+// store.subscribe(() => console.log("The new state is", store.getState()));

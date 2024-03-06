@@ -8,11 +8,25 @@ import { getrecord, updaterecord, createrecord } from "../../redux/api/record";
 import { useSelector } from "react-redux";
 import getDuration from "../../helpers/Calc";
 import { useNavigate } from "react-router-dom";
+import { getuserslist } from "../../redux/api/user";
+
+const getUserOptions = (userList) => {
+  const userOptions = (userList ? userList.map((user, index) => ({
+    label: user.first_name + ' ' + user.last_name,
+    value: user.id
+  })) : [])
+  userOptions.unshift({
+    label: '- Select User -',
+    value: ''
+  })
+  return userOptions
+}
+
 function RecordEdit() {
   const dispatch = useDispatch();
   const record = useSelector((state) => state.record.record);
   const navigate = useNavigate();
-  const { date_recorded, duration, distance, id, user, user_fullname } = record;
+  const { date_recorded, duration, distance, id, user } = record;
   console.log(record, "XXXXX??????");
   const params = useParams();
   const { hour, min, sec } = getDuration(duration);
@@ -33,6 +47,7 @@ function RecordEdit() {
     },
   });
   useEffect(() => {
+    dispatch(getuserslist({ count: 0, page_size: 100, page: 1 }));
     if (params.id) {
       dispatch(getrecord(params.id));
       setValue("date_recorded", date_recorded);
@@ -40,7 +55,7 @@ function RecordEdit() {
       setValue("durationMin", min);
       setValue("durationSec", sec);
       setValue("distance", distance);
-      setValue("user_fullname", user_fullname);
+      setValue("user_fullname", user);
     }
   }, [
     dispatch,
@@ -50,9 +65,12 @@ function RecordEdit() {
     min,
     sec,
     distance,
-    user_fullname,
+    user,
     setValue,
   ]);
+
+  const userList=useSelector(state=>state.users.userslist);
+  const users=getUserOptions(userList);
 
   const handleEdit = (values) => {
     // console.log({ values }, "Valuueeeeeeeee");
@@ -74,7 +92,7 @@ function RecordEdit() {
         )
       : dispatch(
           createrecord(
-            { date_recorded, distance, duration, id, user, user_fullname },
+            { date_recorded, distance, duration, user_fullname },
             navigate
           )
         );
@@ -168,18 +186,18 @@ function RecordEdit() {
               ) : undefined}
               <InputGroup.Text id="basic-addon2">meters</InputGroup.Text>
             </InputGroup>
-            <Form.Group>
+            <Form.Group style={{ marginBottom: "3vh" }}>
               <Form.Label>User</Form.Label>
-              <Form.Control
-                type="text"
+              <Form.Select
+                aria-label="Default select example"
                 {...register("user_fullname")}
-                aria-invalid={errors.user_fullname ? "true" : "false"}
-              />
-              {errors.user_fullname ? (
-                <p role="alert" style={{ color: "red" }}>
-                  {errors.user_fullname.message}
-                </p>
-              ) : undefined}
+              >
+                {
+                  users.map(user=><option value={user.value}>{user.label}</option>)
+                }
+                
+                
+              </Form.Select>
             </Form.Group>
             <Row style={{ margin: "1em" }}>
               <Col>

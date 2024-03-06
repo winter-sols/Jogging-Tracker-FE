@@ -38,6 +38,8 @@ function RecordsList() {
         next: null,
         page_size: 10,
         page: 1,
+        from:null,
+        to:null
       })
     );
   },[dispatch]);
