@@ -8,25 +8,29 @@ import { getrecord, updaterecord, createrecord } from "../../redux/api/record";
 import { useSelector } from "react-redux";
 import getDuration from "../../helpers/Calc";
 import { useNavigate } from "react-router-dom";
-import { getuserslist } from "../../redux/api/user";
 
 const getUserOptions = (userList) => {
-  const userOptions = (userList ? userList.map((user, index) => ({
-    label: user.first_name + ' ' + user.last_name,
-    value: user.id
-  })) : [])
+  const userOptions = userList
+    ? userList.map((user, index) => ({
+        label: user.first_name + " " + user.last_name,
+        value: user.id,
+      }))
+    : [];
   userOptions.unshift({
-    label: '- Select User -',
-    value: ''
-  })
-  return userOptions
-}
+    label: "- Select User -",
+    value: "",
+  });
+  return userOptions;
+};
 
 function RecordEdit() {
   const dispatch = useDispatch();
   const record = useSelector((state) => state.record.record);
+  const auth = useSelector((state) => state.auth.data);
+  const { info } = auth;
+  console.log(auth);
   const navigate = useNavigate();
-  const { date_recorded, duration, distance, id, user } = record;
+  const { date_recorded, duration, distance, user, id } = record;
   console.log(record, "XXXXX??????");
   const params = useParams();
   const { hour, min, sec } = getDuration(duration);
@@ -47,7 +51,6 @@ function RecordEdit() {
     },
   });
   useEffect(() => {
-    dispatch(getuserslist({ count: 0, page_size: 100, page: 1 }));
     if (params.id) {
       dispatch(getrecord(params.id));
       setValue("date_recorded", date_recorded);
@@ -69,11 +72,14 @@ function RecordEdit() {
     setValue,
   ]);
 
-  const userList=useSelector(state=>state.users.userslist);
-  const users=getUserOptions(userList);
+  const userList = useSelector((state) => state.users.userslist);
+  const users = getUserOptions(userList);
 
   const handleEdit = (values) => {
-    // console.log({ values }, "Valuueeeeeeeee");
+    console.log({ values }, "Valuueeeeeeeee");
+    const role=info.role
+    const userid=info.id
+    console.log({id})
     const {
       date_recorded,
       durationHour,
@@ -86,13 +92,13 @@ function RecordEdit() {
     params.id
       ? dispatch(
           updaterecord(
-            { date_recorded, distance, duration, id, user, user_fullname },
+            { date_recorded, distance, duration, id,user, user_fullname, info },
             navigate
           )
         )
       : dispatch(
           createrecord(
-            { date_recorded, distance, duration, user_fullname },
+            { date_recorded, distance, duration,userid, user_fullname, role },
             navigate
           )
         );
@@ -186,19 +192,20 @@ function RecordEdit() {
               ) : undefined}
               <InputGroup.Text id="basic-addon2">meters</InputGroup.Text>
             </InputGroup>
-            <Form.Group style={{ marginBottom: "3vh" }}>
-              <Form.Label>User</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                {...register("user_fullname")}
-              >
-                {
-                  users.map(user=><option value={user.value}>{user.label}</option>)
-                }
-                
-                
-              </Form.Select>
-            </Form.Group>
+            {info.role === "Admin" && (
+              <Form.Group style={{ marginBottom: "3vh" }}>
+                <Form.Label>User</Form.Label>
+                <Form.Select
+                  aria-label="Default select example"
+                  {...register("user_fullname")}
+                >
+                  {users.map((user) => (
+                    <option value={user.value}>{user.label}</option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
+            )}
+
             <Row style={{ margin: "1em" }}>
               <Col>
                 <Button variant="secondary" onClick={handleCancel}>

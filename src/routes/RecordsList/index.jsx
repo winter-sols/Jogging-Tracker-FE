@@ -14,11 +14,9 @@ import "../../css/recordslist.css";
 // import confirmModal from "../../containers/Modals";
 
 function RecordsList() {
-  // console.log(this.props)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const recordslist = useSelector((state) => state.records.recordslist);
-  // console.log({recordslist});
   const {
     register,
     formState: { errors },
@@ -38,11 +36,11 @@ function RecordsList() {
         next: null,
         page_size: 10,
         page: 1,
-        from:null,
-        to:null
+        from: null,
+        to: null,
       })
     );
-  },[dispatch]);
+  }, [dispatch]);
 
   const pagination = useSelector((state) => state.pagination);
   const size = pagination.page_size;
@@ -59,10 +57,13 @@ function RecordsList() {
     );
   };
 
-  const handleDeleteRecord = useCallback((id) => {
-    // console.log({id}, "handle delete record----------");
-    dispatch(deleterecord(id));
-  },[dispatch]);
+  const handleDeleteRecord = useCallback(
+    (id) => {
+      // console.log({id}, "handle delete record----------");
+      dispatch(deleterecord(id));
+    },
+    [dispatch]
+  );
 
   const handlePagination = (pagination) => {
     const { page } = pagination;
@@ -143,7 +144,7 @@ function RecordsList() {
             {recordslist &&
               recordslist.map((record, index) => (
                 <tr key={index + record}>
-                  <th scope="row">{index + 1 + 10*(pagination.page-1)}</th>
+                  <th scope="row">{index + 1 + 10 * (pagination.page - 1)}</th>
                   <td>
                     {record.date_recorded} {record.last_name}
                   </td>
@@ -163,7 +164,7 @@ function RecordsList() {
                     <Button
                       variant="danger"
                       size="sm"
-                      onClick={() =>handleDeleteRecord(record.id)}
+                      onClick={() => handleDeleteRecord(record.id)}
                     >
                       Delete
                     </Button>
