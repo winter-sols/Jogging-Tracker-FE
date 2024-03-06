@@ -143,7 +143,7 @@ function RecordsList() {
             {recordslist &&
               recordslist.map((record, index) => (
                 <tr key={index + record}>
-                  <th scope="row">{index + 1}</th>
+                  <th scope="row">{index + 1 + 10*(pagination.page-1)}</th>
                   <td>
                     {record.date_recorded} {record.last_name}
                   </td>
