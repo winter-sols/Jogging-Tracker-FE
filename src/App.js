@@ -18,6 +18,7 @@ function App() {
   // },[isAuthenticated])
   // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  console.log('this is app')
 
   return (
     <div className="App">
