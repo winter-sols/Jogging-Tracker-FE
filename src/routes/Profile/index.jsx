@@ -9,21 +9,20 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { createuser, getuser, updateuser } from "../../redux/api/user";
-import { useParams } from "react-router-dom";
+import { saveProfile } from "../../redux/api/user";
+import { compose } from "redux";
 
 const schema = yup
   .object({
-    first_name: yup
+    firstName: yup
       .string()
       .required("Please enter a first name")
       .matches(/^[a-zA-Z]+$/i, "You shouldn't include number"),
-    last_name: yup
+    lastName: yup
       .string()
       .required("Please enter a last name")
       .matches(/^[a-zA-Z]+$/i, "You shouldn't include number"),
     email: yup.string().email().required("Please enter an email"),
-    role: yup.string().required(),
     password: yup
       .string()
       .required("Please enter a password")
@@ -35,13 +34,18 @@ const schema = yup
   })
   .required();
 
-function UserEdit() {
+function Profile() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  console.log(user, "]]]]]]]]]]]]]]]");
-  const { first_name, last_name, email, role } = user;
-  const params = useParams();
+  const values = useSelector((state) => state.auth.data);
+  const { info } = values;
+  const { email, first_name, last_name } = info;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setValue("firstName", first_name);
+    setValue("lastName", last_name);
+    setValue("email", email);
+  });
 
   const {
     register,
@@ -51,68 +55,40 @@ function UserEdit() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
-      role: "User",
       password: "",
     },
   });
 
-  useEffect(() => {
-    if (params.id) {
-      dispatch(getuser(params.id));
-      setValue("first_name", first_name);
-      setValue("last_name", last_name);
-      setValue("email", email);
-      setValue("role", role);
-    }
-  }, [dispatch, params.id, setValue, first_name, last_name, email, role]);
-
-  
-  console.log(errors);
-  const handleEdit = (values) => {
-    console.log({ values }, "AAAAAAAAAAAAAAAAAAAAA");
-    const { email, role, first_name, last_name, id, password }=values;
-    params.id
-      ? dispatch(
-          updateuser(
-            { email, role, first_name, last_name, id, password },
-            navigate
-          )
-        )
-      : dispatch(
-          createuser(
-            { email, role, first_name, last_name, id, password },
-            navigate
-          )
-        );
-    // compose(dispatch(createuser(data)), navigate(-1));
+  const onSubmit = (data) => {
+    compose(dispatch(saveProfile(data)), navigate("/dashboard"));
   };
 
   const handleCancel = () => {
-    navigate(-1);
+    navigate("/dashboard");
   };
 
   return (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
         <div className="form">
-          <h2 className="title">{params.id ? "Edit User" : "Add New User"}</h2>
-          <Form onSubmit={handleSubmit(handleEdit)}>
+          <h2 className="title">Edit Profile</h2>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
               <Col>
                 <Form.Group style={{ marginBottom: "3vh" }}>
                   <Form.Label>First Name</Form.Label>
                   <Form.Control
                     type="text"
-                    {...register("first_name")}
-                    aria-invalid={errors.first_name ? "true" : "false"}
+                    {...register("firstName")}
+                    aria-invalid={errors.firstname ? "true" : "false"}
                   />
                 </Form.Group>
-                {errors.first_name ? (
+                {errors.firstname ? (
                   <p role="alert" style={{ color: "red" }}>
-                    {errors.first_name.message}
+                    {errors.firstname.message}
                   </p>
                 ) : undefined}
               </Col>
@@ -122,13 +98,13 @@ function UserEdit() {
                   <Form.Label>Last Name</Form.Label>
                   <Form.Control
                     type="text"
-                    {...register("last_name")}
-                    aria-invalid={errors.last_name ? "true" : "false"}
+                    {...register("lastName")}
+                    aria-invalid={errors.text ? "true" : "false"}
                   />
                 </Form.Group>
-                {errors.last_name ? (
+                {errors.lastname ? (
                   <p role="alert" style={{ color: "red" }}>
-                    {errors.last_name.message}
+                    {errors.lastname.message}
                   </p>
                 ) : undefined}
               </Col>
@@ -147,18 +123,6 @@ function UserEdit() {
                 Email is required!
               </p>
             )}
-
-            <Form.Group style={{ marginBottom: "3vh" }}>
-              <Form.Label>Role</Form.Label>
-              <Form.Select
-                aria-label="Default select example"
-                {...register("role")}
-              >
-                <option value="user">User</option>
-                <option value="manager">Manager</option>
-                <option value="admin">Admin</option>
-              </Form.Select>
-            </Form.Group>
 
             <Form.Group style={{ marginBottom: "3vh" }}>
               <Form.Label>Password</Form.Label>
@@ -196,4 +160,4 @@ function UserEdit() {
   );
 }
 
-export default UserEdit;
+export default Profile;

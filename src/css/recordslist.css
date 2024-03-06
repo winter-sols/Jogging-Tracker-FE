@@ -1,4 +1,7 @@
 .recordslist {
-    margin-top: 3vh;
-    text-align: center;
+  margin-top: 3vh;
+  text-align: center;
+}
+.btn_new{
+  padding-left: 60vw;
 }

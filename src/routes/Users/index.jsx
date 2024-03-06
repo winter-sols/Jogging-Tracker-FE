@@ -1,12 +1,14 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import UserEdit from '../UserEdit'
-import UsersList from '../UsersList'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import UserEdit from "../UserEdit";
+import UsersList from "../UsersList";
 
-export default () => (
-  <Routes>
-    <Route path='/users' exact component={UsersList} />
-    <Route path='/users/edit/:id' component={UserEdit} />
-    <Route path='/users/new' component={UserEdit} />
-  </Routes>
-)
+export default function Users() {
+  return (
+    <Routes>
+      <Route path="/" exact element={<UsersList />} />
+      <Route path="edit/:id" element={<UserEdit />} />
+      <Route path="new" element={<UserEdit />} />
+    </Routes>
+  );
+}

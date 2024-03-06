@@ -1,22 +1,24 @@
 .form {
-    float: left;
-    width: 100%;
-    height: 100vh;
-    padding: 70px;
-    padding-top: 20vh;
-    background-image: linear-gradient(to right, white, grey);
+  float: left;
+  width: 100%;
+  height: 100vh;
+  padding: 70px;
+  padding-top: 15vh;
+  background-image: linear-gradient(to bottom right, #33ccff 0%, #ff99cc 100%);
+  font-family: Arial, Helvetica, sans-serif;
+
 }
 
 .form .title {
-    margin-bottom: 5vh;
-    text-align: center;
+  margin-bottom: 5vh;
+  text-align: center;
 }
 
 .input {
-    margin-bottom: 5vh;
+  margin-bottom: 5vh;
 }
 
 .btn3 {
-    /* margin-left: 10vw; */
-    margin-left: 9vw;
+  /* margin-left: 10vw; */
+  margin-left: 14vw;
 }
