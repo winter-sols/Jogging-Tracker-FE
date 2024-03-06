@@ -57,7 +57,6 @@ function UserList() {
     setIsModalShow(true);
   }, []);
 
-  console.log('GitHub')
 
   return (
     <div className="recordslist">
