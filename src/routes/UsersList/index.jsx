@@ -57,6 +57,8 @@ function UserList() {
     setIsModalShow(true);
   }, []);
 
+  console.log('GitHub')
+
   return (
     <div className="recordslist">
       <h2 style={{ marginBottom: "3vh", marginTop: "5vh" }}>Manage Users</h2>
