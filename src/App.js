@@ -1,7 +1,7 @@
 import { React, lazy, Suspense } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Navigate, Route } from "react-router-dom";
-import { Container, Nav } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const Login = lazy(() => import("./routes/Login"));

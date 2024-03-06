@@ -56,7 +56,9 @@ export const getrecord = (id) => (dispatch) => {
 };
 
 export const updaterecord = (data, navigate) => (dispatch) => {
-  const { date_recorded, distance, duration, id, user, user_fullname } = data;
+  var { date_recorded, distance, duration, id, user, user_fullname, info } = data;
+  console.log(info)
+  if(info.role!=='Admin')user_fullname=info.first_name+info.last_name;
   axios
     .put(`/records/${id}/`, {
       date_recorded,
@@ -77,13 +79,18 @@ export const updaterecord = (data, navigate) => (dispatch) => {
 };
 
 export const createrecord = (data, navigate) => (dispatch) => {
-  const { date_recorded, distance, duration, user_fullname } = data;
+  const { date_recorded, distance, duration, user_fullname, userid ,role } = data;
+  // console.log({id}, "Rolllllllllllllllll")
+  var user=user_fullname;
+  if(role!=='Admin')user=userid
+  console.log(user)
+  // console.log(User)
   axios
     .post(`/records/`, {
       date_recorded,
       distance,
       duration,
-      user: user_fullname,
+      user
     })
     .then((response) => {
       const payload = response.data;
@@ -99,6 +106,18 @@ export const deleterecord = (id) => (dispatch) => {
   axios
     .delete(`/records/${id}`)
     .then((response) => {
+      console.log(response)
+      dispatch(
+        getrecords({
+          count: 0,
+          previous: null,
+          next: null,
+          page_size: 10,
+          page: 1,
+          from:null,
+          to:null
+        })
+      );
       const payload = id;
       dispatch(DELETE_RECORD(payload));
     })
