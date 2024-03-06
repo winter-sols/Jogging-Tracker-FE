@@ -39,7 +39,7 @@ function UserEdit() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
   console.log(user, "]]]]]]]]]]]]]]]");
-  const { first_name, last_name, email, role } = user;
+  const { first_name, last_name, email, role, id } = user;
   const params = useParams();
   const navigate = useNavigate();
 
@@ -73,7 +73,7 @@ function UserEdit() {
   console.log(errors);
   const handleEdit = (values) => {
     console.log({ values }, "AAAAAAAAAAAAAAAAAAAAA");
-    const { email, role, first_name, last_name, id, password }=values;
+    const { email, role, first_name, last_name, password }=values;
     params.id
       ? dispatch(
           updateuser(

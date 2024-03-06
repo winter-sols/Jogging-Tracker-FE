@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { ref } from "yup";
-import { useDispatch } from "react-redux";
 import { signup } from "../../redux/api/user";
 import Side from "../../containers/Side";
+import { useNavigate } from "react-router";
 
 const schema = yup
   .object({
@@ -32,13 +32,11 @@ const schema = yup
   .required();
 
 function Signup() {
-  // const dispatch = useDispatch();
-
+  const navigate=useNavigate();
   const {
     register,
     formState: { errors },
     handleSubmit,
-    getValues,
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
@@ -52,10 +50,8 @@ function Signup() {
 
   console.log(errors);
   const onSubmit = (data) => {
-    console.log(data);
-    signup(data);
-    // console.log(success)
-    // if(success) return <Alert key={success} variant='success'></Alert>
+    signup(data,navigate);
+    
   };
 
   return (
