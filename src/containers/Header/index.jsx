@@ -2,7 +2,7 @@ import React from "react";
 import "../../css/header.css";
 import { Breadcrumb, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { doLogout } from "../../redux/api/user";
 
@@ -29,11 +29,11 @@ function Header() {
           <Breadcrumb>
             {isAuthenticated ? (
               <>
-                <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
-                {info.info.role==='admin' ? <Breadcrumb.Item href="/users">Users</Breadcrumb.Item> : <></>}
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/dashboard" }}>Dashboard</Breadcrumb.Item>
+                {info.info.role==='admin' ? <Breadcrumb.Item linkAs={Link} linkProps={{to:"/users"}}>Users</Breadcrumb.Item> : <></>}
                 
-                <Breadcrumb.Item href="/records">Records</Breadcrumb.Item>
-                <Breadcrumb.Item href="/profile">Profile</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/records" }}>Records</Breadcrumb.Item>
+                <Breadcrumb.Item linkAs={Link} linkProps={{ to: "/profile" }}>Profile</Breadcrumb.Item>
                 <Breadcrumb.Item onClick={handleLogout}>Logout</Breadcrumb.Item>
               </>
             ) : (
